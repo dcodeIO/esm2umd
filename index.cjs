@@ -1,3 +1,4 @@
+// GENERATED FILE. DO NOT EDIT.
 var esm2umd = (function(exports) {
   "use strict";
   
@@ -8,7 +9,9 @@ var esm2umd = (function(exports) {
   
   var _core = require("@babel/core");
   
-  const wrapper = `var %NAME% = (function(exports) {
+  var _pluginTransformModulesCommonjs = require("@babel/plugin-transform-modules-commonjs");
+  
+  const wrapper = `// GENERATED FILE. DO NOT EDIT.\nvar %NAME% = (function(exports) {
     %CODE%
     return exports;
   })({});
@@ -18,12 +21,12 @@ var esm2umd = (function(exports) {
   
   function esm2umd(moduleName, esmCode) {
     const umdCode = _core.default.transform(esmCode, {
-      plugins: [["@babel/plugin-transform-modules-commonjs", {
+      plugins: [[_pluginTransformModulesCommonjs.default, {
         noInterop: true
       }]]
     }).code.trim();
   
-    return wrapper.replace(/%NAME%/g, moduleName).replace('%CODE%', umdCode.replace(/\n/g, '\n  ').trimRight());
+    return wrapper.replace(/%NAME%/g, moduleName).replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
   }
   return exports;
 })({});

@@ -1,7 +1,7 @@
 {
   "name": "esm2umd",
   "description": "Transforms ESM to UMD.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "bin": {
     "esm2umd": "bin/esm2umd.js"
   },
@@ -24,5 +24,13 @@
   "scripts": {
     "build": "node bin/esm2umd esm2umd index.js > index.cjs",
     "prepublishOnly": "npm run build"
-  }
+  },
+  "files": [
+    "index.js",
+    "index.cjs",
+    "index.d.ts",
+    "package.json",
+    "README.md",
+    "bin/esm2umd.js"
+  ]
 }

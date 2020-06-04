@@ -1,6 +1,7 @@
 import babel from "@babel/core";
+import transform from "@babel/plugin-transform-modules-commonjs";
 
-const wrapper = `var %NAME% = (function(exports) {
+const wrapper = `// GENERATED FILE. DO NOT EDIT.\nvar %NAME% = (function(exports) {
   %CODE%
   return exports;
 })({});
@@ -11,12 +12,10 @@ else if (typeof module === 'object' && typeof exports==='object') module.exports
 export default function esm2umd(moduleName, esmCode) {
   const umdCode = babel.transform(esmCode, {
     plugins: [
-      ["@babel/plugin-transform-modules-commonjs", {
-        noInterop: true
-      }]
+      [ transform, { noInterop: true } ]
     ]
   }).code.trim();
   return wrapper
     .replace(/%NAME%/g, moduleName)
-    .replace('%CODE%', umdCode.replace(/\n/g, '\n  ').trimRight());
+    .replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
 }
