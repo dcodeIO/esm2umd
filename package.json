@@ -1,0 +1,27 @@
+{
+  "name": "esm2umd",
+  "description": "Transforms an ESM module to UMD.",
+  "version": "0.1.0",
+  "bin": {
+    "esm2umd": "bin/esm2umd.js"
+  },
+  "type": "module",
+  "main": "index.cjs",
+  "exports": {
+    "import": "index.js",
+    "require": "index.cjs"
+  },
+  "module": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dcodeIO/esm2umd.git"
+  },
+  "dependencies": {
+    "@babel/core": "^7",
+    "@babel/plugin-transform-modules-commonjs": "^7"
+  },
+  "scripts": {
+    "build": "node bin/esm2umd esm2umd index.js > index.cjs",
+    "prepublishOnly": "npm run build"
+  }
+}
