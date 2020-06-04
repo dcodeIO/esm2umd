@@ -16,14 +16,14 @@ var esm2umd = (function(exports) {
   else if (typeof module === 'object' && typeof exports==='object') module.exports = %NAME%;
   `;
   
-  function esm2umd(moduleName, esmModuleCode) {
-    const umdModuleCode = _core.default.transform(esmModuleCode, {
+  function esm2umd(moduleName, esmCode) {
+    const umdCode = _core.default.transform(esmCode, {
       plugins: [["@babel/plugin-transform-modules-commonjs", {
         noInterop: true
       }]]
     }).code.trim();
   
-    return wrapper.replace(/%NAME%/g, moduleName).replace('%CODE%', umdModuleCode.replace(/\n/g, '\n  ').trimRight());
+    return wrapper.replace(/%NAME%/g, moduleName).replace('%CODE%', umdCode.replace(/\n/g, '\n  ').trimRight());
   }
   return exports;
 })({});

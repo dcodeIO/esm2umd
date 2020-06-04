@@ -8,8 +8,8 @@ if (typeof define === 'function' && define.amd) define([], function() { return %
 else if (typeof module === 'object' && typeof exports==='object') module.exports = %NAME%;
 `;
 
-export default function esm2umd(moduleName, esmModuleCode) {
-  const umdModuleCode = babel.transform(esmModuleCode, {
+export default function esm2umd(moduleName, esmCode) {
+  const umdCode = babel.transform(esmCode, {
     plugins: [
       ["@babel/plugin-transform-modules-commonjs", {
         noInterop: true
@@ -18,5 +18,5 @@ export default function esm2umd(moduleName, esmModuleCode) {
   }).code.trim();
   return wrapper
     .replace(/%NAME%/g, moduleName)
-    .replace('%CODE%', umdModuleCode.replace(/\n/g, '\n  ').trimRight());
+    .replace('%CODE%', umdCode.replace(/\n/g, '\n  ').trimRight());
 }

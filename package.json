@@ -1,7 +1,7 @@
 {
   "name": "esm2umd",
-  "description": "Transforms an ESM module to UMD.",
-  "version": "0.1.0",
+  "description": "Transforms ESM to UMD.",
+  "version": "0.1.1",
   "bin": {
     "esm2umd": "bin/esm2umd.js"
   },
@@ -12,6 +12,7 @@
     "require": "index.cjs"
   },
   "module": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/dcodeIO/esm2umd.git"
