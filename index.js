@@ -1,18 +1,20 @@
 import babel from "@babel/core";
 import transform from "@babel/plugin-transform-modules-commonjs";
 
-const wrapper = `// GENERATED FILE. DO NOT EDIT.\nvar %NAME% = (function(exports) {
+const wrapper = `// GENERATED FILE. DO NOT EDIT.
+var %NAME% = (function(exports) {
   %CODE%
-  return exports;
+  return "default" in exports ? exports.default : exports;
 })({});
 if (typeof define === 'function' && define.amd) define([], function() { return %NAME%; });
 else if (typeof module === 'object' && typeof exports==='object') module.exports = %NAME%;
 `;
 
-export default function esm2umd(moduleName, esmCode) {
+export default function esm2umd(moduleName, esmCode, options = {}) {
+  if (!options.importInterop) options.noInterop = true;
   const umdCode = babel.transform(esmCode, {
     plugins: [
-      [ transform, { noInterop: true } ]
+      [ transform, options ]
     ]
   }).code.trim();
   return wrapper
