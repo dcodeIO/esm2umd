@@ -1,15 +1,15 @@
 {
   "name": "esm2umd",
   "description": "Transforms ESM to UMD.",
-  "version": "0.1.2",
+  "version": "0.0.0",
   "bin": {
     "esm2umd": "bin/esm2umd.js"
   },
   "type": "module",
   "main": "index.cjs",
   "exports": {
-    "import": "index.js",
-    "require": "index.cjs"
+    "import": "./index.js",
+    "require": "./index.cjs"
   },
   "module": "index.js",
   "types": "index.d.ts",
@@ -23,7 +23,8 @@
   },
   "scripts": {
     "build": "node bin/esm2umd esm2umd index.js > index.cjs",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "node tests"
   },
   "files": [
     "index.js",

@@ -11,24 +11,25 @@ var esm2umd = (function(exports) {
   
   var _pluginTransformModulesCommonjs = require("@babel/plugin-transform-modules-commonjs");
   
-  const wrapper = `// GENERATED FILE. DO NOT EDIT.\nvar %NAME% = (function(exports) {
+  const wrapper = `// GENERATED FILE. DO NOT EDIT.
+  var %NAME% = (function(exports) {
     %CODE%
-    return exports;
+    return "default" in exports ? exports.default : exports;
   })({});
   if (typeof define === 'function' && define.amd) define([], function() { return %NAME%; });
   else if (typeof module === 'object' && typeof exports==='object') module.exports = %NAME%;
   `;
   
-  function esm2umd(moduleName, esmCode) {
+  function esm2umd(moduleName, esmCode, options = {}) {
+    if (!options.importInterop) options.noInterop = true;
+  
     const umdCode = _core.default.transform(esmCode, {
-      plugins: [[_pluginTransformModulesCommonjs.default, {
-        noInterop: true
-      }]]
+      plugins: [[_pluginTransformModulesCommonjs.default, options]]
     }).code.trim();
   
     return wrapper.replace(/%NAME%/g, moduleName).replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
   }
-  return exports;
+  return "default" in exports ? exports.default : exports;
 })({});
 if (typeof define === 'function' && define.amd) define([], function() { return esm2umd; });
 else if (typeof module === 'object' && typeof exports==='object') module.exports = esm2umd;
