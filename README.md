@@ -9,10 +9,12 @@ Usage
 -----
 
 ```
-npx esm2umd ModuleName esmFile.js > umdFile.js
+npx esm2umd MyModule esmFile.js > umdFile.js
 ```
 
-`ModuleName` is used as the name of the vanilla JS global. If the module has a `default` export, it becomes the value obtained when `require`d.
+`MyModule` is used as the name of the vanilla JS global.
+
+If the module has a `default` export, it becomes the value obtained when `require`d.
 
 API
 ---
@@ -24,4 +26,53 @@ import esm2umd from 'esm2umd'
 
 const esmCode = '...'
 const umdCode = esm2umd('ModuleName', esmCode)
+```
+
+Example
+-------
+
+ESM-first hybrid module with legacy fallback and prepublish build step.
+
+**package.json**
+
+```json
+{
+  "type": "module",
+  "main": "./umd/index.js",
+  "types": "index.d.ts",
+  "exports": {
+    "import": "./index.js",
+    "require": "./umd/index.js"
+  },
+  "scripts": {
+    "build": "npx esm2umd MyModule index.js > umd/index.js",
+    "prepublishOnly": "npm run build"
+  }
+}
+```
+
+Treat .js files in `umd/` as CommonJS.
+
+**umd/package.json**
+
+```json
+{
+  "type": "commonjs"
+}
+```
+
+Keep the generated artifact out of version control to avoid PRs against it.
+
+**.gitignore**
+
+```
+umd/index.js
+```
+
+For typings, if there is a `default` export, stick to the "old" format for compatibility.
+
+**index.d.ts**
+
+```ts
+export = MyModule;
 ```
