@@ -8,7 +8,7 @@ var ${name} = (function(exports) {
   return "default" in exports ? exports.default : exports;
 })({});
 if (typeof define === 'function' && define.amd) define([], function() { return ${name}; });
-else if (typeof module === 'object' && typeof exports==='object') module.exports = ${name};
+else if (typeof module === 'object' && typeof exports === 'object') module.exports = ${name};
 `);
 
 export default function esm2umd(moduleName, esmCode, options = {}) {
