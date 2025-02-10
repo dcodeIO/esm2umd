@@ -3,7 +3,7 @@ esm2umd
 
 Transforms ESM to UMD, i.e. to use ESM by default with UMD as a legacy fallback.
 
-[![Build Status](https://img.shields.io/github/workflow/status/dcodeIO/esm2umd/Test/main?label=test&logo=github)](https://github.com/dcodeIO/esm2umd/actions?query=workflow%3ATest) [![Publish Status](https://img.shields.io/github/workflow/status/dcodeIO/esm2umd/Publish/main?label=publish&logo=github)](https://github.com/dcodeIO/esm2umd/actions?query=workflow%3APublish) [![npm](https://img.shields.io/npm/v/esm2umd.svg?label=npm&color=007acc&logo=npm)](https://www.npmjs.com/package/esm2umd)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/dcodeIO/esm2umd/test.yml?branch=main&label=test&logo=github)](https://github.com/dcodeIO/esm2umd/actions/workflows/test.yml) [![Publish Status](https://img.shields.io/github/actions/workflow/status/dcodeIO/esm2umd/publish.yml?branch=main&label=publish&logo=github)](https://github.com/dcodeIO/esm2umd/actions/workflows/publish.yml) [![npm](https://img.shields.io/npm/v/esm2umd.svg?label=npm&color=007acc&logo=npm)](https://www.npmjs.com/package/esm2umd)
 
 Usage
 -----
