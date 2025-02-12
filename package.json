@@ -30,7 +30,9 @@
     "@babel/helper-plugin-utils": "^7.26.5"
   },
   "scripts": {
-    "build": "node bin/esm2umd esm2umd index.js > umd/index.js",
+    "build": "node bin/esm2umd esm2umd index.js > umd/index.js && prettier --write umd/index.js",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
     "prepublishOnly": "npm run build",
     "test": "npm run test:unit && npm run test:typescript",
     "test:unit": "node tests",
@@ -48,6 +50,7 @@
     "bin/esm2umd.js"
   ],
   "devDependencies": {
+    "prettier": "^3.5.0",
     "requirejs": "^2.3.7",
     "typescript": "^5.7.3"
   }

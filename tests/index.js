@@ -5,7 +5,6 @@ const fs = require("fs");
 const vm = require("vm");
 
 const tests = [
-
   async function esm() {
     const index = await import("../index.js");
     assert.equal(Object.prototype.toString.call(index), "[object Module]");
@@ -22,14 +21,17 @@ const tests = [
   },
 
   async function global() {
-    const umdSource = await fs.promises.readFile(path.join(__dirname, "..", "umd", "index.js"), "utf8");
+    const umdSource = await fs.promises.readFile(
+      path.join(__dirname, "..", "umd", "index.js"),
+      "utf8",
+    );
     const context = vm.createContext({
       window: {},
-      helperPluginUtils: { declare: function() {} },
+      helperPluginUtils: { declare: function () {} },
       path: {},
       helperModuleTransforms: {},
-      core: { template: function() {} },
-    })
+      core: { template: function () {} },
+    });
     context.window = context;
     vm.runInContext(umdSource, context);
     const index = context.esm2umd;
@@ -44,12 +46,15 @@ const tests = [
       requirejs.config({
         baseUrl: path.join(__dirname, "..", "umd"),
         paths: {
-          "esm2umd": "index",
+          esm2umd: "index",
         },
       });
       requirejs(["esm2umd"], function (index) {
         try {
-          assert.equal(Object.prototype.toString.call(index), "[object Function]");
+          assert.equal(
+            Object.prototype.toString.call(index),
+            "[object Function]",
+          );
           assert(typeof index === "function");
           console.log(util.inspect(index, { showHidden: true }));
           resolve();
@@ -58,8 +63,7 @@ const tests = [
         }
       });
     });
-  }
-
+  },
 ];
 
 function next() {

@@ -82,14 +82,17 @@ const transformModulesUmd = declare((api, options) => {
         initAssignments = [];
 
         const members = globalName.split(".");
-        globalToAssign = members.slice(1).reduce((accum, curr) => {
-          initAssignments.push(
-            buildPrerequisiteAssignment({
-              GLOBAL_REFERENCE: t.cloneNode(accum),
-            }),
-          );
-          return t.memberExpression(accum, t.identifier(curr));
-        }, t.memberExpression(t.identifier("global"), t.identifier(members[0])));
+        globalToAssign = members.slice(1).reduce(
+          (accum, curr) => {
+            initAssignments.push(
+              buildPrerequisiteAssignment({
+                GLOBAL_REFERENCE: t.cloneNode(accum),
+              }),
+            );
+            return t.memberExpression(accum, t.identifier(curr));
+          },
+          t.memberExpression(t.identifier("global"), t.identifier(members[0])),
+        );
       }
     }
 
@@ -247,10 +250,11 @@ const transformModulesUmd = declare((api, options) => {
 
 export default function esm2umd(moduleName, esmCode, options = {}) {
   if (options.importInterop == null) options.noInterop = true;
-  return "// GENERATED FILE. DO NOT EDIT.\n" + transform(esmCode, {
-    plugins: [
-      [ transformModulesUmd, options ]
-    ],
-    moduleId: moduleName
-  }).code.trim();
+  return (
+    "// GENERATED FILE. DO NOT EDIT.\n" +
+    transform(esmCode, {
+      plugins: [[transformModulesUmd, options]],
+      moduleId: moduleName,
+    }).code.trim()
+  );
 }

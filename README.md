@@ -1,12 +1,10 @@
-esm2umd
-=======
+# esm2umd
 
 Transforms ESM to UMD, i.e. to use ESM by default with UMD as a legacy fallback.
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/dcodeIO/esm2umd/test.yml?branch=main&label=test&logo=github)](https://github.com/dcodeIO/esm2umd/actions/workflows/test.yml) [![Publish Status](https://img.shields.io/github/actions/workflow/status/dcodeIO/esm2umd/publish.yml?branch=main&label=publish&logo=github)](https://github.com/dcodeIO/esm2umd/actions/workflows/publish.yml) [![npm](https://img.shields.io/npm/v/esm2umd.svg?label=npm&color=007acc&logo=npm)](https://www.npmjs.com/package/esm2umd)
 
-Usage
------
+## Usage
 
 ```
 $> npm install --save-dev esm2umd
@@ -20,18 +18,16 @@ npx esm2umd MyModule esmFile.js > umdFile.js
 
 If the module has a `default` export, it is transformed to a whole-module export.
 
-API
----
+## API
 
 ```js
-import esm2umd from 'esm2umd'
+import esm2umd from "esm2umd";
 
-const esmCode = '...'
-const umdCode = esm2umd('ModuleName', esmCode)
+const esmCode = "...";
+const umdCode = esm2umd("ModuleName", esmCode);
 ```
 
-Example
--------
+## Example
 
 Outline of a hybrid module with legacy fallback:
 
@@ -96,4 +92,18 @@ export as namespace MyModule;
 export class MyModule {
   // ...
 }
+```
+
+## Building
+
+Building the UMD fallback:
+
+```
+$> npm run build
+```
+
+Running the [tests](./tests):
+
+```
+$> npm test
 ```

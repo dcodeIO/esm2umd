@@ -8,4 +8,6 @@ if (process.argv.length < 4) {
   process.exit(1);
 }
 
-process.stdout.write(esm2umd(process.argv[2], fs.readFileSync(process.argv[3])));
+process.stdout.write(
+  esm2umd(process.argv[2], fs.readFileSync(process.argv[3])),
+);
