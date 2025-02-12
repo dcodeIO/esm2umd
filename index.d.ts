@@ -1,1 +1,2 @@
-export default function esm2umd(moduleName: string, esmCode: string, options?: Record<string,any>): string;
+import { esm2umd } from "./types.js";
+export default esm2umd;

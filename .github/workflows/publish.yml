@@ -1,7 +1,5 @@
 name: Publish
 on:
-  schedule:
-  - cron: '0 0 * * *'
   workflow_dispatch:
 jobs:
   publish:
@@ -9,10 +7,10 @@ jobs:
     if: github.repository == 'dcodeIO/esm2umd'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
       with:
         ref: main
-    - uses: dcodeIO/setup-node-nvm@master
+    - uses: actions/setup-node@v4
       with:
         node-version: current
     - name: Install dependencies

@@ -9,17 +9,19 @@ Usage
 -----
 
 ```
+$> npm install --save-dev esm2umd
+```
+
+```
 npx esm2umd MyModule esmFile.js > umdFile.js
 ```
 
 `MyModule` is used as the name of the vanilla JS global.
 
-If the module has a `default` export, it becomes the value obtained when `require`d.
+If the module has a `default` export, it is transformed to a whole-module export.
 
 API
 ---
-
-Installation as a dependency is optional (pulls in megabytes of babel), but if so desired exposes the CLI as an API:
 
 ```js
 import esm2umd from 'esm2umd'
@@ -31,7 +33,7 @@ const umdCode = esm2umd('ModuleName', esmCode)
 Example
 -------
 
-ESM-first hybrid module with legacy fallback and prepublish build step.
+Outline of a hybrid module with legacy fallback:
 
 **package.json**
 
@@ -39,10 +41,18 @@ ESM-first hybrid module with legacy fallback and prepublish build step.
 {
   "type": "module",
   "main": "./umd/index.js",
-  "types": "index.d.ts",
+  "types": "./umd/index.d.ts",
   "exports": {
-    "import": "./index.js",
-    "require": "./umd/index.js"
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.js"
+      },
+      "require": {
+        "types": "./umd/index.d.ts",
+        "default": "./umd/index.js"
+      }
+    }
   },
   "scripts": {
     "build": "npx esm2umd MyModule index.js > umd/index.js",
@@ -50,8 +60,6 @@ ESM-first hybrid module with legacy fallback and prepublish build step.
   }
 }
 ```
-
-Treat .js files in `umd/` as CommonJS.
 
 **umd/package.json**
 
@@ -61,18 +69,31 @@ Treat .js files in `umd/` as CommonJS.
 }
 ```
 
-Keep the generated artifact out of version control to avoid PRs against it.
-
 **.gitignore**
 
 ```
 umd/index.js
 ```
 
-For typings, if there is a `default` export, stick to the "old" format for compatibility.
-
 **index.d.ts**
 
 ```ts
+import { MyModule } from "./types.js";
+export default MyModule;
+```
+
+**umd/index.d.ts**
+
+```ts
+import { MyModule } from "../types.js";
 export = MyModule;
+export as namespace MyModule;
+```
+
+**types.d.ts**
+
+```ts
+export class MyModule {
+  // ...
+}
 ```
