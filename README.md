@@ -27,9 +27,9 @@ const esmCode = "...";
 const umdCode = esm2umd("ModuleName", esmCode);
 ```
 
-## Example
+## Examples
 
-Outline of a hybrid module with legacy fallback:
+Common outline of a hybrid module with legacy fallback, either exporting a class or a namespace:
 
 **package.json**
 
@@ -51,8 +51,7 @@ Outline of a hybrid module with legacy fallback:
     }
   },
   "scripts": {
-    "build": "npx esm2umd MyModule index.js > umd/index.js",
-    "prepublishOnly": "npm run build"
+    "build": "npx esm2umd MyModule index.js > umd/index.js && cp types.d.ts umd/types.d.ts"
   }
 }
 ```
@@ -69,30 +68,70 @@ Outline of a hybrid module with legacy fallback:
 
 ```
 umd/index.js
+umd/types.d.ts
 ```
+
+### Class export
+
+As used by [long.js](https://github.com/dcodeIO/long.js):
 
 **index.d.ts**
 
 ```ts
-import { MyModule } from "./types.js";
-export default MyModule;
-```
-
-**umd/index.d.ts**
-
-```ts
-import { MyModule } from "../types.js";
-export = MyModule;
-export as namespace MyModule;
+import { MyClass } from "./types.js";
+export default MyClass;
 ```
 
 **types.d.ts**
 
 ```ts
-export class MyModule {
+export declare class MyClass {
   // ...
 }
 ```
+
+**umd/index.d.ts**
+
+```ts
+import { MyClass } from "./types.js";
+export = MyClass;
+export as namespace MyClass;
+```
+
+**umd/types.d.ts**
+
+Copy of types.d.ts.
+
+### Namespace export
+
+As used by [bcrypt.js](https://github.com/dcodeIO/bcrypt.js):
+
+**index.d.ts**
+
+```ts
+import * as myNamespace from "./types.js";
+export * from "./types.js";
+export default myNamespace;
+```
+
+**types.d.ts**
+
+```ts
+export declare function myFunction(): void;
+// ...
+```
+
+**umd/index.d.ts**
+
+```ts
+import * as myNamespace from "./types.js";
+export = myNamespace;
+export as namespace myNamespace;
+```
+
+**umd/types.d.ts**
+
+Copy of types.d.ts.
 
 ## Building
 
