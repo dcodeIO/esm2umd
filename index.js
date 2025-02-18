@@ -17,18 +17,18 @@ const buildPrerequisiteAssignment = template(`
 `);
 const buildWrapper = template(`
   (function (global, factory) {
-    function unwrapDefault(exports) {
-      return ("default" in exports ? exports.default : exports);
+    function preferDefault(exports) {
+      return exports.default || exports;
     }
     if (typeof define === "function" && define.amd) {
       define(AMD_ARGUMENTS, function(FORWARD_NAMES) {
         var exports = {};
         factory(exports, FORWARD_NAMES);
-        return unwrapDefault(exports);
+        return preferDefault(exports);
       });
     } else if (typeof exports === "object") {
       factory(COMMONJS_ARGUMENTS);
-      if (typeof module === "object") module.exports = unwrapDefault(exports);
+      if (typeof module === "object") module.exports = preferDefault(exports);
     } else {
       (function() {
         var exports = {};
@@ -101,7 +101,7 @@ const transformModulesUmd = declare((api, options) => {
         t.assignmentExpression(
           "=",
           globalToAssign,
-          t.callExpression(t.identifier("unwrapDefault"), [
+          t.callExpression(t.identifier("preferDefault"), [
             t.identifier("exports"),
           ]),
         ),
@@ -249,7 +249,6 @@ const transformModulesUmd = declare((api, options) => {
 });
 
 export default function esm2umd(moduleName, esmCode, options = {}) {
-  if (options.importInterop == null) options.noInterop = true;
   return (
     "// GENERATED FILE. DO NOT EDIT.\n" +
     transform(esmCode, {
